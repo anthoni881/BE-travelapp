@@ -5,7 +5,7 @@ const InsertRoutes = require("./routes/insert");
 const AuthRoutes = require("./routes/login");
 const session = require("express-session");
 const cors = require("cors");
-let port = process.env.PORT || 1010;
+let port = process.env.PORT || 5000;
 let app = express();
 
 app.use(
@@ -21,6 +21,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/people", PeopleRoutes);
 app.use("/insert", InsertRoutes);
-app.use("/auth", AuthRoutes);
+// app.use("/auth", AuthRoutes);
 
 app.listen(port);

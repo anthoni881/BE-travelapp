@@ -3,11 +3,11 @@ const Router = express.Router();
 const mysqlConnection = require("../connection");
 
 Router.post("/", (req, res) => {
-  let username = req.body.username;
+  let email = req.body.email;
   let password = req.body.password;
 
   mysqlConnection.query(
-    `INSERT INTO people (username, password) VALUES ("${username}","${password}")`,
+    `INSERT INTO user (iduser ,email, password) VALUES (${1},"${email}","${password}")`,
     (err, rows, fields) => {
       if (!err) {
         res.send("berhasil disimpan");
