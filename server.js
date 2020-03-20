@@ -10,9 +10,10 @@ let app = express();
 
 app.use(
   session({
-    secret: "secret",
-    resave: true,
+    secret: "keyboard cat",
+    resave: false,
     saveUninitialized: true
+    // cookie: { secure: true }
   })
 );
 app.use(bodyParser.json());

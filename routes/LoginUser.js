@@ -2,7 +2,7 @@ const express = require("express");
 const Router = express.Router();
 const mysqlConnection = require("../connection");
 const jwt = require("jsonwebtoken");
-
+const bcrypt = require("bcrypt");
 Router.post("/", (req, res) => {
   let username = req.body.email;
   let password = req.body.password;
@@ -10,48 +10,54 @@ Router.post("/", (req, res) => {
   if (username && password) {
     if (role === "tourist") {
       mysqlConnection.query(
-        "SELECT * FROM tourist WHERE email = ? AND password = ?",
-        [username, password],
+        "SELECT * FROM tourist WHERE email = ?",
+        [username],
         function(error, results, fields) {
-          if (results.length > 0) {
-            req.session.loggedin = true;
-            req.session.username = username;
-            const token = jwt.sign({ id: username }, "secret_key");
-            try {
-              var decoded = jwt.verify(token, "secret_key");
-            } catch (err) {
-              // err
+          const hash = results[0].password.toString();
+          bcrypt.compare(password, hash, function(err, response) {
+            if (response === true) {
+              req.session.loggedin = true;
+              req.session.username = username;
+              const token = jwt.sign({ id: username }, "secret_key");
+              try {
+                var decoded = jwt.verify(token, "secret_key");
+              } catch (err) {
+                // err
+              }
+              res.send({ token: decoded, data: results[0] });
+              console.log("Wisatawan berhasil masuk");
+            } else {
+              res.send("Username dan/atau Password Anda Salah!");
+              console.log("Password Salah");
             }
-            res.send({ token: decoded, data: results[0] });
-            console.log("Wisatawan berhasil masuk");
-          } else {
-            res.send("Username dan/atau Password Anda Salah!");
-            console.log("Password Salah");
-          }
-          res.end();
+            res.end();
+          });
         }
       );
     } else {
       mysqlConnection.query(
-        "SELECT * FROM tour_guide WHERE email = ? AND password = ?",
-        [username, password],
+        "SELECT * FROM tour_guide WHERE email = ?",
+        [username],
         function(error, results, fields) {
-          if (results.length > 0) {
-            req.session.loggedin = true;
-            req.session.username = username;
-            const token = jwt.sign({ id: username }, "secret_key");
-            try {
-              var decoded = jwt.verify(token, "secret_key");
-            } catch (err) {
-              // err
+          const hash = results[0].password.toString();
+          bcrypt.compare(password, hash, function(err, response) {
+            if (response === true) {
+              req.session.loggedin = true;
+              req.session.username = username;
+              const token = jwt.sign({ id: username }, "secret_key");
+              try {
+                var decoded = jwt.verify(token, "secret_key");
+              } catch (err) {
+                // err
+              }
+              res.send({ token: decoded, data: results[0] });
+              console.log("Pemandu Wisata berhasil masuk");
+            } else {
+              res.send("Username dan/atau Password Anda Salah!");
+              console.log("Password Salah");
             }
-            res.send({ token: decoded, data: results[0] });
-            console.log("Wisatawan berhasil masuk");
-          } else {
-            res.send("Username dan/atau Password Anda Salah!");
-            console.log("Password Salah");
-          }
-          res.end();
+            res.end();
+          });
         }
       );
     }
