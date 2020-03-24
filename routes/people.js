@@ -3,7 +3,7 @@ const Router = express.Router();
 const mysqlConnection = require("../connection");
 
 Router.get("/", (req, res) => {
-  mysqlConnection.query("SELECT * FROM people", (err, rows, fields) => {
+  mysqlConnection.query("SELECT * FROM tour_guide", (err, rows, fields) => {
     if (!err) {
       console.log(rows);
       res.send(rows);
