@@ -13,25 +13,29 @@ Router.post("/", (req, res) => {
         "SELECT * FROM tourist WHERE email = ?",
         [username],
         function(error, results, fields) {
-          const hash = results[0].password.toString();
-          bcrypt.compare(password, hash, function(err, response) {
-            if (response === true) {
-              req.session.loggedin = true;
-              req.session.username = username;
-              const token = jwt.sign({ id: username }, "secret_key");
-              try {
-                var decoded = jwt.verify(token, "secret_key");
-              } catch (err) {
-                // err
+          if (error === null) {
+            console.log("wew");
+          } else {
+            const hash = results[0].password.toString();
+            bcrypt.compare(password, hash, function(err, response) {
+              if (response === true) {
+                req.session.loggedin = true;
+                req.session.username = username;
+                const token = jwt.sign({ id: username }, "secret_key");
+                try {
+                  var decoded = jwt.verify(token, "secret_key");
+                } catch (err) {
+                  // err
+                }
+                res.send({ token: decoded, data: results[0] });
+                console.log("Wisatawan berhasil masuk");
+              } else {
+                res.send("Username dan/atau Password Anda Salah!");
+                console.log("Password Salah");
               }
-              res.send({ token: decoded, data: results[0] });
-              console.log("Wisatawan berhasil masuk");
-            } else {
-              res.send("Username dan/atau Password Anda Salah!");
-              console.log("Password Salah");
-            }
-            res.end();
-          });
+              res.end();
+            });
+          }
         }
       );
     } else {
@@ -39,25 +43,29 @@ Router.post("/", (req, res) => {
         "SELECT * FROM tour_guide WHERE email = ?",
         [username],
         function(error, results, fields) {
-          const hash = results[0].password.toString();
-          bcrypt.compare(password, hash, function(err, response) {
-            if (response === true) {
-              req.session.loggedin = true;
-              req.session.username = username;
-              const token = jwt.sign({ id: username }, "secret_key");
-              try {
-                var decoded = jwt.verify(token, "secret_key");
-              } catch (err) {
-                // err
+          if (error === null) {
+            console.log("wew");
+          } else {
+            const hash = results[0].password.toString();
+            bcrypt.compare(password, hash, function(err, response) {
+              if (response === true) {
+                req.session.loggedin = true;
+                req.session.username = username;
+                const token = jwt.sign({ id: username }, "secret_key");
+                try {
+                  var decoded = jwt.verify(token, "secret_key");
+                } catch (err) {
+                  // err
+                }
+                res.send({ token: decoded, data: results[0] });
+                console.log("Pemandu Wisata berhasil masuk");
+              } else {
+                res.send("Username dan/atau Password Anda Salah!");
+                console.log("Password Salah");
               }
-              res.send({ token: decoded, data: results[0] });
-              console.log("Pemandu Wisata berhasil masuk");
-            } else {
-              res.send("Username dan/atau Password Anda Salah!");
-              console.log("Password Salah");
-            }
-            res.end();
-          });
+              res.end();
+            });
+          }
         }
       );
     }
