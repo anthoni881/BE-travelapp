@@ -5,7 +5,7 @@ const InsertRoutes = require("./routes/SignUpUser");
 const LoginRoutes = require("./routes/LoginUser");
 const session = require("express-session");
 const cors = require("cors");
-let port = process.env.PORT || 1010;
+let port = process.env.PORT || 5000;
 let app = express();
 
 app.use(

@@ -8,7 +8,8 @@ Router.post("/", (req, res) => {
   let password = req.body.password;
   let role = req.body.role;
   if (username && password) {
-    if (role === "tourist") {
+    if (role === "Tourist") {
+      
       mysqlConnection.query(
         "SELECT * FROM tourist WHERE email = ?",
         [username],
@@ -27,14 +28,17 @@ Router.post("/", (req, res) => {
               res.send({ token: decoded, data: results[0] });
               console.log("Wisatawan berhasil masuk");
             } else {
-              res.send("Username dan/atau Password Anda Salah!");
+              // res.send("Username dan/atau Password Anda Salah!",404);
+              res.setHeader("Content-Type", "application/json");
+              res.status(404).send("Passworde salaheee");
               console.log("Password Salah");
             }
             res.end();
           });
         }
       );
-    } else {
+    } 
+    else if(role === "Tour Guide") {
       mysqlConnection.query(
         "SELECT * FROM tour_guide WHERE email = ?",
         [username],
@@ -60,6 +64,10 @@ Router.post("/", (req, res) => {
           });
         }
       );
+    } 
+    else {
+      console.log("Covid-19");
+      
     }
   } else {
     res.send("Please enter Username and Password!");
