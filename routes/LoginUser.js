@@ -8,7 +8,7 @@ Router.post("/", (req, res) => {
   let password = req.body.password;
   let role = req.body.role;
   if (username && password) {
-    if (role === "tourist") {
+    if (role === "Tourist") {
       mysqlConnection.query(
         "SELECT * FROM tourist WHERE email = ?",
         [username],
@@ -30,7 +30,7 @@ Router.post("/", (req, res) => {
                   // err
                 }
                 res.send({ token: decoded, data: results[0] });
-                console.log("Pemandu Wisata berhasil masuk");
+                console.log("Wisatawan berhasil masuk");
               } else {
                 res.statusCode = 401;
                 res.send("Password Anda Salah!");
@@ -65,8 +65,7 @@ Router.post("/", (req, res) => {
                 res.send({ token: decoded, data: results[0] });
                 console.log("Pemandu Wisata berhasil masuk");
               } else {
-                res.statusCode = 401;
-                res.send("Password Anda Salah!");
+                res.status(401).send(error);
                 console.log("Password Salah");
               }
               res.end();

@@ -3,15 +3,17 @@ const Router = express.Router();
 const mysqlConnection = require("../connection");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-Router.post("/", async (req, res) => {
+Router.post("/", (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
   let img = req.body.img;
   let role = req.body.role;
+  let name = req.body.name;
+  let phoneNumber = req.body.phone_number;
   if (role === "tourist") {
     bcrypt.hash(password, saltRounds, function(err, hash) {
       mysqlConnection.query(
-        `INSERT INTO tourist (email, password, img, role) VALUES ("${email}","${hash}","${img}","${role}")`,
+        `INSERT INTO tourist (email, name, password, img, phone_number, role) VALUES ("${email}","${name}","${hash}","${img}","${phoneNumber}","${role}")`,
         (err, rows, fields) => {
           if (!err) {
             res.send("Data Anda berhasil disimpan");
@@ -25,7 +27,7 @@ Router.post("/", async (req, res) => {
   } else if (role === "tourguide") {
     bcrypt.hash(password, saltRounds, function(err, hash) {
       mysqlConnection.query(
-        `INSERT INTO tour_guide (email, password,img,role) VALUES ("${email}","${hash}","${img}","${role}")`,
+        `INSERT INTO tour_guide (email, name, password, img, phone_number, role) VALUES ("${email}","${name}","${hash}","${img}","${phoneNumber}","${role}")`,
         (err, rows, fields) => {
           if (!err) {
             res.send("Data Anda berhasil disimpan");
