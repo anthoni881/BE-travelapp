@@ -3,9 +3,11 @@ const bodyParser = require("body-parser");
 const PeopleRoutes = require("./routes/people");
 const InsertRoutes = require("./routes/SignUpUser");
 const LoginRoutes = require("./routes/LoginUser");
+const Location = require("./routes/Location");
+const Logout = require("./routes/Logout");
 const session = require("express-session");
 const cors = require("cors");
-let port = process.env.PORT || 1010;
+let port = process.env.PORT || 5000;
 let app = express();
 
 app.use(
@@ -23,5 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/people", PeopleRoutes);
 app.use("/signupuser", InsertRoutes);
 app.use("/loginuser", LoginRoutes);
+app.use("/location", Location);
+app.use("/logout", Logout);
 
 app.listen(port);
