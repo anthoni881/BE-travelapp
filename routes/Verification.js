@@ -3,12 +3,11 @@ const Router = express.Router();
 const mysqlConnection = require("../connection");
 
 Router.get("/", (req, res) => {
-  mysqlConnection.query("SELECT * FROM tourist", (err, rows, fields) => {
-    if (!err) {
-      res.send(rows);
-    } else {
-      console.log(err);
+  mysqlConnection.query(
+    "SELECT * FROM tour_guide WHERE verif = 'false'",
+    function (err, rows, fields) {
+      console.log(rows);
     }
-  });
+  );
 });
 module.exports = Router;
