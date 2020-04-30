@@ -7,6 +7,7 @@ const Location = require("./routes/Location");
 const Logout = require("./routes/Logout");
 const session = require("express-session");
 const Verification = require("./routes/Verification");
+const Approval = require("./routes/Approval");
 const cors = require("cors");
 let port = process.env.PORT || 5000;
 let app = express();
@@ -29,5 +30,6 @@ app.use("/loginuser", LoginRoutes);
 app.use("/location", Location);
 app.use("/logout", Logout);
 app.use("/verification", Verification);
+app.use("/approval", Approval);
 
 app.listen(port);
