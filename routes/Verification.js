@@ -6,7 +6,7 @@ Router.get("/", (req, res) => {
   mysqlConnection.query(
     "SELECT * FROM tour_guide WHERE verif = 'false'",
     function (err, rows, fields) {
-      console.log(rows);
+      res.send(rows)
     }
   );
 });

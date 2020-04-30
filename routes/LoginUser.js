@@ -80,30 +80,36 @@ Router.post("/", (req, res) => {
         "SELECT * FROM tour_guide WHERE email = ?",
         [username],
         function (error, results, fields) {
-          if (results < 1) {
-            res.statusCode = 401;
-            res.send("Username anda salah");
-            console.log("Username anda salah");
-          } else {
-            const hash = results[0].password.toString();
-            bcrypt.compare(password, hash, function (err, response) {
-              if (response === true) {
-                req.session.loggedin = true;
-                req.session.username = username;
-                const token = jwt.sign({ id: username }, "secret_key");
-                try {
-                  var decoded = jwt.verify(token, "secret_key");
-                } catch (err) {
-                  // err
+          console.log(results[0].verif);
+          if (results[0].verif === "active") {
+            if (results < 1) {
+              res.statusCode = 401;
+              res.send("Username anda salah");
+              console.log("Username anda salah");
+            } else {
+              const hash = results[0].password.toString();
+              bcrypt.compare(password, hash, function (err, response) {
+                if (response === true) {
+                  req.session.loggedin = true;
+                  req.session.username = username;
+                  const token = jwt.sign({ id: username }, "secret_key");
+                  try {
+                    var decoded = jwt.verify(token, "secret_key");
+                  } catch (err) {
+                    // err
+                  }
+                  res.send({ token: decoded, data: results[0] });
+                  console.log("Pemandu Wisata berhasil masuk");
+                } else {
+                  res.status(401).send(error);
+                  console.log("Password Salah");
                 }
-                res.send({ token: decoded, data: results[0] });
-                console.log("Pemandu Wisata berhasil masuk");
-              } else {
-                res.status(401).send(error);
-                console.log("Password Salah");
-              }
-              res.end();
-            });
+                res.end();
+              });
+            }
+          } else {
+            console.log("Akun anda Belum Aktif atau Tidak aktif");
+            res.status(401).send("Akun anda Belum Aktif atau Tidak aktif");
           }
         }
       );
