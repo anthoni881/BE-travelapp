@@ -17,7 +17,6 @@ const saltRounds = 10;
 Router.post("/", upload.any("img"), (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
-  let img = req.files[0].path.replace(/\s/g, "");
   let role = req.body.role;
   let name = req.body.name;
   let phoneNumber = req.body.phone_number;
@@ -25,7 +24,7 @@ Router.post("/", upload.any("img"), (req, res) => {
   if (role === "tourist") {
     bcrypt.hash(password, saltRounds, function (err, hash) {
       mysqlConnection.query(
-        `INSERT INTO tourist (email, name, password, img, phone_number, role) VALUES ("${email}","${name}","${hash}","${img}","${phoneNumber}","${role}")`,
+        `INSERT INTO tourist (email, name, password, phone_number, role) VALUES ("${email}","${name}","${hash}","${phoneNumber}","${role}")`,
         (err, rows, fields) => {
           if (!err) {
             res.send("Data Anda berhasil disimpan");
@@ -38,6 +37,7 @@ Router.post("/", upload.any("img"), (req, res) => {
       );
     });
   } else if (role === "tourguide") {
+  let img = req.files[0].path.replace(/\s/g, "");
     bcrypt.hash(password, saltRounds, function (err, hash) {
       mysqlConnection.query(
         `INSERT INTO tour_guide (email, name, password, img, phone_number, verif) VALUES ("${email}","${name}","${hash}","${img}","${phoneNumber}","false")`,
