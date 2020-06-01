@@ -10,6 +10,8 @@ const Verification = require("./routes/Verification");
 const Approval = require("./routes/Approval");
 const Profile = require("./routes/Profile");
 const Maps = require("./routes/Maps");
+const Pick = require("./routes/Pick");
+const History = require("./routes/History");
 const cors = require("cors");
 let port = process.env.PORT || 5000;
 let app = express();
@@ -35,5 +37,7 @@ app.use("/verification", Verification);
 app.use("/approval", Approval);
 app.use("/profile", Profile);
 app.use("/maps", Maps);
+app.use("/pick", Pick);
+app.use("/history", History);
 
 app.listen(port);
