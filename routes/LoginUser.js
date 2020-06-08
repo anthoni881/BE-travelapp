@@ -9,7 +9,7 @@ Router.post("/", (req, res) => {
   let role = req.body.role;
 
   if (username && password) {
-    if (role === "tourist") {
+    if (role === "Tourist") {
       mysqlConnection.query(
         "SELECT * FROM tourist WHERE email = ?",
         [username],
