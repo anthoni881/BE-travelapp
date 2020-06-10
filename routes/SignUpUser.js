@@ -21,7 +21,7 @@ Router.post("/", upload.any("img"), (req, res) => {
   let name = req.body.name;
   let phoneNumber = req.body.phone_number;
 
-  if (role === "tourist") {
+  if (role === "Tourist") {
     bcrypt.hash(password, saltRounds, function (err, hash) {
       mysqlConnection.query(
         `INSERT INTO tourist (email, name, password, phone_number, role) VALUES ("${email}","${name}","${hash}","${phoneNumber}","${role}")`,
@@ -36,7 +36,7 @@ Router.post("/", upload.any("img"), (req, res) => {
         }
       );
     });
-  } else if (role === "tourguide") {
+  } else if (role === "Tour Guide") {
   let img = req.files[0].path.replace(/\s/g, "");
     bcrypt.hash(password, saltRounds, function (err, hash) {
       mysqlConnection.query(

@@ -21,7 +21,7 @@ Router.post("/", upload.any("img"), (req, res) => {
   let description = req.body.description;
   let img = req.files[0] ? req.files[0].path.replace(/\s/g, "") : "";
 
-  if (role === "tourist") {
+  if (role === "Tourist") {
     mysqlConnection.query(
       "UPDATE tourist SET name = ?, img = ? , phone_number = ?, email = ? WHERE id = ?;",
       [name, img, phoneNumber, email, id],
