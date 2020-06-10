@@ -32,7 +32,7 @@ Router.post("/", upload.any("img"), (req, res) => {
   } else {
     mysqlConnection.query(
       "UPDATE tour_guide SET name = ?, img_profile = ?, phone_number = ?, description = ?, email = ? WHERE id = ?;",
-      [name, img, phoneNumber, description, email],
+      [name, img, phoneNumber, description, email, id],
       function (error, results, fields) {
         res.send("Profile Berhasil diupdate");
       }
