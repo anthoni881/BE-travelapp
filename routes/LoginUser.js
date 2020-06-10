@@ -76,6 +76,7 @@ Router.post("/", (req, res) => {
         }
       );
     } else {
+      
       mysqlConnection.query(
         "SELECT * FROM tour_guide WHERE email = ?",
         [username],
