@@ -23,7 +23,7 @@ Router.post("/", upload.any("img"), (req, res) => {
 
   if (role === "tourist") {
     mysqlConnection.query(
-      "UPDATE tourist SET name = ?, img = ? , phone_number = ?, email = ? WHERE id = ?;",
+      "UPDATE tourist SET name = ?, img_profile = ? , phone_number = ?, email = ? WHERE id = ?;",
       [name, img, phoneNumber, email, id],
       function (error, results) {
         res.send("Profile Berhasil diupdate");
@@ -31,7 +31,7 @@ Router.post("/", upload.any("img"), (req, res) => {
     );
   } else {
     mysqlConnection.query(
-      "UPDATE tour_guide SET name = ?, img = ?, phone_number = ?, description = ?, email = ? WHERE id = ?;",
+      "UPDATE tour_guide SET name = ?, img_profile = ?, phone_number = ?, description = ?, email = ? WHERE id = ?;",
       [name, img, phoneNumber, description, email],
       function (error, results, fields) {
         res.send("Profile Berhasil diupdate");
