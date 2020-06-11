@@ -12,6 +12,7 @@ const Profile = require("./routes/Profile");
 const Maps = require("./routes/Maps");
 const Pick = require("./routes/Pick");
 const History = require("./routes/History");
+
 const cors = require("cors");
 let port = process.env.PORT || 5000;
 let app = express();
