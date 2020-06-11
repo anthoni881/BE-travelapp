@@ -19,22 +19,30 @@ Router.post("/", upload.any("img"), (req, res) => {
   let phoneNumber = req.body.phone_number;
   let role = req.body.role;
   let description = req.body.description;
-  let img = req.files[0] ? req.files[0].path.replace(/\s/g, "") : "";
+  let img = req.files ? req.files[0].path.replace(/\s/g, "") : "";
 
   if (role === "Tourist") {
     mysqlConnection.query(
-      "UPDATE tourist SET name = ?, img_profile = ? , phone_number = ?, email = ? WHERE id = ?;",
+      "UPDATE tourist SET name = ?, img_profile = ? , phone_number = ?, email = ? WHERE id = ?",
       [name, img, phoneNumber, email, id],
-      function (error, results) {
-        res.send("Profile Berhasil diupdate");
+      function (error, results,fields) {
+        mysqlConnection.query("SELECT * FROM tourist WHERE id = ?",
+        [id],
+        function(error,results,fields){
+          res.send(results);
+        });
       }
     );
   } else {
+    console.log("hallew");
     mysqlConnection.query(
-      "UPDATE tour_guide SET name = ?, img_profile = ?, phone_number = ?, description = ?, email = ? WHERE id = ?;",
-      [name, img, phoneNumber, description, email],
+      "UPDATE tour_guide SET name = ?, img_profile = ?, phone_number = ?, description = ?, email = ? WHERE id = ?",
+      [name, img, phoneNumber, description, email, id],
       function (error, results, fields) {
-        res.send("Profile Berhasil diupdate");
+        mysqlConnection.query("SELECT * FROM tour_guide WHERE id = ?",[id],
+        function(error,results,fields){
+          res.send(results);
+        })
       }
     );
   }
