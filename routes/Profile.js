@@ -25,8 +25,12 @@ Router.post("/", upload.any("img"), (req, res) => {
     mysqlConnection.query(
       "UPDATE tourist SET name = ?, img_profile = ? , phone_number = ?, email = ? WHERE id = ?;",
       [name, img, phoneNumber, email, id],
-      function (error, results) {
-        res.send("Profile Berhasil diupdate");
+      function (error, results,fields) {
+        mysqlConnection.query("SELECT * FROM tour_guide WHERE id = ? "),[id],
+        function(error,results,fields){
+          console.log(results);
+          res.send(results);
+        }
       }
     );
   } else {
@@ -34,7 +38,11 @@ Router.post("/", upload.any("img"), (req, res) => {
       "UPDATE tour_guide SET name = ?, img_profile = ?, phone_number = ?, description = ?, email = ? WHERE id = ?;",
       [name, img, phoneNumber, description, email, id],
       function (error, results, fields) {
-        res.send("Profile Berhasil diupdate");
+        mysqlConnection.query("SELECT * FROM tour_guide WHERE id = ? "),[id],
+        function(error,results,fields){
+          console.log(results);
+          res.send(results);
+        }
       }
     );
   }
