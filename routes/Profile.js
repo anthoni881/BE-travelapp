@@ -34,7 +34,6 @@ Router.post("/", upload.any("img"), (req, res) => {
       }
     );
   } else {
-    console.log("hallew");
     mysqlConnection.query(
       "UPDATE tour_guide SET name = ?, img_profile = ?, phone_number = ?, description = ?, email = ? WHERE id = ?",
       [name, img, phoneNumber, description, email, id],
@@ -42,6 +41,7 @@ Router.post("/", upload.any("img"), (req, res) => {
         mysqlConnection.query("SELECT * FROM tour_guide WHERE id = ?",[id],
         function(error,results,fields){
           res.send(results);
+          
         })
       }
     );

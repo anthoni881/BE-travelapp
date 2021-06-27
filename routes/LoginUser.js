@@ -53,7 +53,10 @@ Router.post("/", (req, res) => {
             console.log("Username anda salah");
           } else {
             const hash = results[0].password_admin.toString();
+            console.log(hash);
+            
             bcrypt.compare(password, hash, function (err, response) {
+              
               if (response === true) {
                 req.session.loggedin = true;
                 req.session.username = username;

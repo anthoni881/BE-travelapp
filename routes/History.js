@@ -10,7 +10,7 @@ Router.post("/", (req, res) => {
       function (error, results, fields) {
         let tourGuideListId = results.map((data) => data.tour_guide_id);
         mysqlConnection.query(
-          `SELECT id, name, email, phone_number FROM tour_guide WHERE id IN (${tourGuideListId})`,
+          `SELECT id, name, email, phone_number, img_profile, region FROM tour_guide WHERE id IN (${tourGuideListId})`,
           function (error, results, fields) {
             console.log(results);
             res.send(results);
