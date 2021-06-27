@@ -22,6 +22,7 @@ Router.post("/", async (req, res) => {
         );
       }
     );
+    
   } else {
     mysqlConnection.query(
       "SELECT * FROM tour_guide WHERE email = ?",
